@@ -1,0 +1,41 @@
+<body>
+<p>
+The ring package contains the basic classes representing rows and place notation,
+and providing permutation services. Although fully-featured, performance and
+code size are paramount in the design of these classes.
+<p>
+A {@link org.pealfactory.ring.PN} object is constructed using a String containing
+human-readable place notation in any one of a number of standard formats.
+It parses the notation on construction, and can then provide access to each
+individual change, as well as a (normally accurate) assessment of the number of
+bells the notation applies to.
+Other statistical properties are also provided, such as whether the notational is
+symmetrical, right-place, etc.
+<p>
+Two Row classes are provided: one mutable and one immutable. They provide similar
+services, including analysis of properties such as tenors-together, and permutation by
+place notation and arbitrary row. Here is some example code showing how to use
+the Row and PN classes to generate every row in the first lead of a method:
+<pre>
+		PN pn = new PN("&-18-14, +12");
+		Row r = new Row(pn.guessNBells());
+		for (int i=0; i&lt;pn.getLength(); i++)
+		{
+			r.applyPN(pn.getChange(i));
+			if (r.equals(kROUNDS))
+				break;
+		}
+</pre>
+<p>
+And here is the equivalent code using ImmutableRow:
+<pre>
+		PN pn = new PN("&-18-14, +12");
+		ImmutableRow row = new ImmutableRow(pn.guessNBells());
+		for (int i=0; i&lt;pn.getLength(); i++)
+		{
+			row = row.change(pn.getChange(i));
+			if (row.isRounds())
+				break;
+		}
+</pre>
+</body>
